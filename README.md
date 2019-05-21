@@ -1,4 +1,12 @@
 # Github_BioIT_training for epigenome pipeline
+
+- avocado
+- onion
+- salt & pepper
+
+Put into a bowl and mix.
+
+
 Practical session in the github **BioIT** training session
 
 - you can add bullets

@@ -1,5 +1,7 @@
 # Github_BioIT_training for epigenome pipeline
 
+Make sure to enjoy!
+
 - avocado
 - onion
 - tomatoes

@@ -1,0 +1,7 @@
+{
+    "qc_plot" : "/g/korbel/meiers/tools/mosaicatcher/mosaicatcher/R/qc.R",
+    "sv_plot" : "/g/korbel/meiers/tools/mosaicatcher/mosaicatcher/R/svs.R",
+    "mosaic"  : "/g/korbel/meiers/tools/mosaicatcher/mosaicatcher/build/mosaicatcher",
+    "genome"  : "/g/korbel/shared/datasets/refgenomes/human/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna",
+    "exclude" : "/g/korbel/meiers/tools/mosaicatcher/mosaicatcher/data/exclude/GCA_000001405.15_GRCh38_no_alt_analysis_set.exclude"
+}

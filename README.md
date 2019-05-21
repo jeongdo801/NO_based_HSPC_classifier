@@ -1,25 +1,25 @@
-# Github_BioIT_training for epigenome pipeline
-
-Make sure to enjoy!
-
-- avocado
-- onion
-- tomatoes
-- salt & pepper
-
-Put into a bowl and mix.
+# Epigenome analysis pipeline Part 1
 
 
-Practical session in the github **BioIT** training session
+Define regulatory elements (2kb)
+- Roadmap DHS Promoter (45963 regions)
+- Roadmap DHS Enhancer (619368 regions)
+- ATAC peak Bone marrow (311510 regions) : Corces et al.
+- ATAT peak Bone marrow and Thymus combined (423488 regions) : unpublished data
 
-- you can add bullets
-  - and sub-bullets
-- [and links](http://bio-it.embl.de)
-- *italics* and ~~strikethrough~~ is also possible
+Exclusion of the chromosomes
+- For the clustering of multiple individuals : exclude chrX, Y, M
+- For the clustering of cells within one individual : exclude chrM
 
-`code can be highlighted with backticks`
+Analysis pipeline (workflow management using Snakemake)
+- Input: bamfile, remove duplicate and supplementary reads
+- Generate count matrix (Deeptool)
+- Inference of motif activity (Rscript)
+- Supervised cell-type prediction (Rscript)
+- Unsupervised clustering (Rscript)
+- Trajectory analysis (Rscript)
+- Output: cell-type label, clustering plot, motif activity, trajectory plot
 
-```Python
-for file in filenames:
-  print(file)
-```
+Example datasets
+- Cell line mixture
+- Primary cell data

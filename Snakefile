@@ -28,14 +28,13 @@ configfile: "Snake.config.json"
 rule remove_low_quality_reads:
     input:
         bam = "bam/{cell}.bam"
-	awk = awk_1st.awk
     output:
         temp("bam/{cell}.sc_pre_mono.bam")
     shell:
         """
         module load SAMtools/1.3.1-foss-2016b
 	samtools view -H {input} > header_test.sam
-	samtools view -F 2304 {input.bam} | awk -f {input.awk} | cat header_test.sam - | samtools view -Sb - > {output}	
+	samtools view -F 2304 {input.bam} | awk -f utils/awk_1st.awk | cat header_test.sam - | samtools view -Sb - > {output}	
         """
 
 rule sort_bam:

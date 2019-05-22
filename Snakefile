@@ -1,4 +1,5 @@
 import os
+
 ###############################################################################
  # SETTINGS                                                                    #
  #                                                                             #
@@ -10,7 +11,7 @@ SAMPLE_NAME = "testSample"
  # By default, the pipeline will expect file to be in a subfolder called       #
  # 'fastq' and to be names *_1_sequence.txt.gz *_2_sequence.txt.gz             #
  #                                                                             #
-FASTQ, = glob_wildcards("fastq/{cell}_1_sequence.txt.gz")
+BAMFILE, = glob_wildcards("bam/{cell}.bam")
  #                                                                             #
  #                                                                             #
 abbreviate_names = False
@@ -19,90 +20,29 @@ abbreviate_names = False
 
 configfile: "Snake.config.json"
 
- ###############################################################################
- # PRE-PROCESSING                                                              #
- #                                                                             #
- # Remove common substrs from front and end of fastq names to determine NAMES  #
- #                                                                             #
-def longest_pref(strs):
-    if len(strs) == 1:
-        return strs[0]
-    ref = strs[0]
-    lpos = len(ref)
-    for i in range(1,len(strs)):
-        pos = 0
-        while pos<len(ref) and pos<len(strs[i]) and strs[i][pos]==ref[pos]:
-            pos+=1
-        if pos < lpos:
-            lpos = pos
-        if lpos == 0:
-            break
-    return lpos
-pref = longest_pref(FASTQ)
-suff = longest_pref([x[::-1] for x in FASTQ])
-NAMES = dict([(f,f) for f in FASTQ])
-if abbreviate_names:
-    NAMES = dict([(fq, fq[pref:(len(fq)-suff)]) for fq in FASTQ])
-    print("NOTE")
-    print("I will try to uniquely abbreviate cell names. Here is an example:")
-    for cell, name in NAMES.items():
-        print("  ", cell, " -> ", name)
-        break
- #                                                                             #
- # Finished pre-processing                                                     #
- #                                                                             #
- ###############################################################################
-
-
-
-
-rule all:
-    input:
-        expand("plot_overview/{s}.{window}.pdf", s = SAMPLE_NAME, window = [20000, 50000, 100000, 200000, 500000]),
-        expand("plot_chromosomes/{s}/window_{window}.chr1.pdf", s = SAMPLE_NAME, window = [20000, 50000, 100000, 200000, 500000])
-		# dynamic(expand("plot_chromosomes/{s}/window_{window}.{{chrom}}.pdf", s = SAMPLE_NAME, window = [20000, 50000, 100000, 200000, 500000]))
-        # Note: dynamic rule does not work !
-
-
  #
  # PART I
- # Read mapping
+ # Read preprocessing
  #
-
-def get_time_for_map_reads(wc, input):
-    fsize = os.stat(input[1]).st_size
-    return max(1,int(round(fsize/400000000)))
-
-rule map_reads:
+	
+rule remove_low_quality_reads:
     input:
-        "fastq/{cell}_1_sequence.txt.gz", "fastq/{cell}_2_sequence.txt.gz"
+        bam = "bam/{cell}.bam"
+	awk = awk_1st.awk
     output:
-        temp("bam/{cell}.bam")
-    params:
-        name = lambda wc: NAMES[wc.cell],
-        genome = config["genome"]
-    threads:
-        4
-    resources:
-        time = get_time_for_map_reads
-    message:
-        "Start mapping cell {input} using {threads} threads and giving {resources.time} hours"
+        temp("bam/{cell}.sc_pre_mono.bam")
     shell:
         """
-        module load BWA/0.7.15-foss-2016b SAMtools/1.3.1-foss-2016b
-        bwa mem -t {threads} \
-            -R '@RG\tID:{params.name}\tSM:{SAMPLE_NAME}\tLB:{wildcards.cell}' \
-            {params.genome} \
-            {input} \
-        | samtools view -bT {params.genome} - \
-        > {output}
+        module load SAMtools/1.3.1-foss-2016b
+	samtools view -H {input} > header_test.sam
+	samtools view -F 2304 {input.bam} | awk -f {input.awk} | cat header_test.sam - | samtools view -Sb - > {output}	
         """
 
 rule sort_bam:
     input:
-        "bam/{cell}.bam"
+        "bam/{cell}.sc_pre_mono.bam"
     output:
-        temp("bam/{cell}.sort.bam")
+        "bam/{cell}.sc_pre_mono_sort_for_mark.bam"
     threads:
         2
     shell:
@@ -111,83 +51,59 @@ rule sort_bam:
         samtools sort -@ {threads} -O BAM -o {output} {input}
         """
 
-rule markdups:
+rule index_num1:
     input:
-        "bam/{cell}.sort.bam"
+        "bam/{cell}.sc_pre_mono_sort_for_mark.bam"
     output:
-        "bam/{cell}.sort.mdup.bam"
-    threads:
-        2
+        "bam/{cell}.sc_pre_mono_sort_for_mark.bam.bai"
+    shell:
+        """
+        module load SAMtools/1.3.1-foss-2016b
+        samtools index {input}
+        """	
+	
+rule remove_dup:
+    input:
+        bam = "bam/{cell}.sc_pre_mono_sort_for_mark.bam"
+	bai = "bam/{cell}.sc_pre_mono_sort_for_mark.bam.bai"
+    output:
+        bam_uniq = "bam/{cell}.sc_pre_mono_sort_for_mark_uniq.bam"
+	metrix = "bam/{cell}.sc_pre_mono.metrix_dup.txt"
     shell:
         """
         module load biobambam2/2.0.76-foss-2016b
-        bammarkduplicates markthreads={threads} I={input} O={output} index=1 rmdup=0
+        bammarkduplicates markthreads=2 I={input.bam} O={output.bam_uniq} M={output.metrix} index=1 rmdup=1
         """
 
-rule index:
+rule index_num2:
     input:
-        "bam/{cell}.sort.mdup.bam"
+        "bam/{cell}.sc_pre_mono_sort_for_mark_uniq.bam"
     output:
-        "bam/{cell}.sort.mdup.bam.bai"
+        "bam/{cell}.sc_pre_mono_sort_for_mark_uniq.bam.bai"
     shell:
         """
         module load SAMtools/1.3.1-foss-2016b
         samtools index {input}
         """
-
-
-
-
-
+	
+	
  #
  # PART II
- # MosaiCatcher counts & plots
+ # Read counting
  #
-
-rule mosaic_count:
-    input:
-        bam = expand("bam/{cell}.sort.mdup.bam", cell = FASTQ),
-        bai = expand("bam/{cell}.sort.mdup.bam.bai", cell = FASTQ)
-    output:
-        counts = "counts/" + SAMPLE_NAME + ".{window}.txt.gz",
-        info   = "counts/" + SAMPLE_NAME + ".{window}.info"
-    params:
-        mosaic = config["mosaic"],
-        exclude = config["exclude"]
-    shell:
-        """
-        {params.mosaic} count \
-            -o {output.counts} \
-            -i {output.info} \
-            -x {params.exclude} \
-            -w {wildcards.window} \
-            {input.bam}
-        """
-
-rule plot_mosaic_counts:
-    input:
-        counts = "counts/" + SAMPLE_NAME + ".{window}.txt.gz",
-        info   = "counts/" + SAMPLE_NAME + ".{window}.info"
-    output:
-        "plot_overview/" + SAMPLE_NAME + ".{window}.pdf"
-    params:
-        qc_plot = config["qc_plot"]
-    shell:
-        """
-        module load R-bundle-Bioconductor/3.5-foss-2016b-R-3.4.0
-        Rscript {params.qc_plot} {input.counts} {input.info} {output}
-        """
-
-rule plot_chromosomes:
-    input:
-        counts = "counts/{SAMPLE_NAME}.{window}.txt.gz"
-    output:
-        dynamic("plot_chromosomes/{SAMPLE_NAME}/window_{window}.{chrom}.pdf")
-    params:
-        sv_plot = config["sv_plot"]
-    shell:
-        """
-        module load R-bundle-Bioconductor/3.5-foss-2016b-R-3.4.0
-        Rscript {params.sv_plot} {input} plot_chromosomes/{SAMPLE_NAME}/window_{wildcards.window}
-        """
+ # In this step, users can choose the set of regulatory elements they want to analyze
+ 
+#rule count_reads:
+#   input:
+#       counts = "counts/{SAMPLE_NAME}.{window}.txt.gz"
+#   output:
+#       dynamic("plot_chromosomes/{SAMPLE_NAME}/window_{window}.{chrom}.pdf")
+#   params:
+#       sv_plot = config["sv_plot"]
+#   shell:
+#       """
+#       module load deeptools/2.5.1-foss-2016b-Python-2.7.12
+#	perl Strand_seq_deeptool_DHS_chromVAR.pl > Strand_seq_deeptool_bin_auto.pl
+#        perl Strand_seq_deeptool_bin_auto.pl
+#        """
 

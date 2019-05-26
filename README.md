@@ -13,7 +13,8 @@ Exclusion of the chromosomes
 
 
 Analysis pipeline (workflow management using Snakemake)
-- Input: bamfile, remove duplicate and supplementary reads
+- Input: bamfile 
+- Preprocessing to remove duplicate and supplementary reads (samtools, biobambam)
 - Generate count matrix (Deeptool)
 - Inference of motif activity (Rscript)
 - Supervised cell-type prediction (Rscript)

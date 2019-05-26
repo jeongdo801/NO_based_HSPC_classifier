@@ -22,7 +22,7 @@ Analysis pipeline (workflow management using Snakemake)
 
 
 Example datasets
-- Cell line mixture
+- Cell line data (LCL, K562, RPE1)
 - Primary cell data
 
 

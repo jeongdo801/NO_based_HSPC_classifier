@@ -9,7 +9,7 @@ Define regulatory elements (2kb)
 
 Exclusion of the chromosomes
 - For the analysis of multiple individuals : exclude chrX, Y, M (default)
-- For the analysis of cells within one individual : exclude chrM
+- For the analysis of cells within one individual : exclude chrY, M
 
 
 Analysis pipeline (workflow management using Snakemake)

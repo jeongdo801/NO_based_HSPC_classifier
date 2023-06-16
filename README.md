@@ -1,4 +1,4 @@
-# Bonemarrow Hematopoietic stem and progenitor cells classifier using single-cell nucleosome occupancy profiles
+# Bonemarrow HSPC classifier using single-cell NO profiles
 
 
 Define regulatory elements (2kb)

@@ -1,4 +1,4 @@
-# Epigenome analysis pipeline Part 1
+# Bonemarrow Hematopoietic stem and progenitor cells classifier using single-cell nucleosome occupancy profiles
 
 
 Define regulatory elements (2kb)

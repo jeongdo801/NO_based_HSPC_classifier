@@ -1,5 +1,5 @@
 # HSPC cell-type classifier using single-cell NO profiles
-This is the script developed for the provisional paper Grimes and Jeong et al. titled "Cell type-specific consequences of mosaic structural variants in hematopoietic stem and progenitor cells"
+This classifier has been developed for a study by Grimes and Jeong et al. (manuscript in preparation).
 
 
 

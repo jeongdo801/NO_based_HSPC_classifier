@@ -5,7 +5,7 @@ This is the script developed for the provisional paper Grimes and Jeong et al. t
 
 ## pre-requirement step
 1. preparation of single-cell NO information using scNOVA analysis <br>
-scNOVA: [https://github.com/friendsofstrandseq/mosaicatcher-pipeline](https://github.com/jeongdo801/scNOVA)
+scNOVA: [[https://github.com/friendsofstrandseq/mosaicatcher-pipeline](https://github.com/jeongdo801/scNOVA)](https://github.com/jeongdo801/scNOVA)
 > Jeong and Grimes *et al.*, 2022 (doi: 10.1038/s41587-022-01551-4)
 
 <br/><br/>

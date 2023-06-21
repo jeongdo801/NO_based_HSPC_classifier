@@ -1,4 +1,4 @@
-# Bonemarrow HSPC classifier using single-cell NO profiles
+# HSPC cell-type classifier using single-cell NO profiles
 
 
 Define regulatory elements (2kb)

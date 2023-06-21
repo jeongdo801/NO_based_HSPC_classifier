@@ -1,31 +1,21 @@
 # HSPC cell-type classifier using single-cell NO profiles
+This is the script developed for the provisional paper Grimes and Jeong et al. titled "Cell type-specific consequences of mosaic structural variants in hematopoietic stem and progenitor cells"
 
 
-Define regulatory elements (2kb)
-- Roadmap DHS Enhancer (619368 regions)
-- ATAC peak Bone marrow (311510 regions) : Corces et al.
-- ATAT peak Bone marrow and Thymus combined (423488 regions) : unpublished data
+## Overview of this workflow
+STEP1. Pre-requirement step - preparation of single-cell NO information using scNOVA analysis <br>
+scNOVA: [https://github.com/friendsofstrandseq/mosaicatcher-pipeline](https://github.com/jeongdo801/scNOVA)
 
-
-Exclusion of the chromosomes
-- For the analysis of multiple individuals : exclude chrX, Y, M (default)
-- For the analysis of cells within one individual : exclude chrY, M
-
-
-Analysis pipeline (workflow management using Snakemake)
-- Input: bamfile 
-- Preprocessing to remove duplicate and supplementary reads (samtools, biobambam)
-- Generate count matrix (Deeptool)
-- Inference of motif activity (Rscript)
-- Supervised cell-type prediction (Rscript)
-- Output: motif activity per single-cell, predicted cell-type label
-
-
-Example datasets
-- Cell line data (LCL, K562, RPE1)
-- Primary cell data
-
-
-Further ideas
-- Unsupervised clustering (Rscript)
-- Trajectory analysis (Rscript)
+<br/><br/>
+# Setup
+1. **input files**
+	* git lfs install
+	* git clone https://github.com/jeongdo801/scNOVA.git
+        * install dependencies (see further below)
+2. **models**
+	* Add your single-cell bam and index files (input_bam/*.bam)
+	* Add key result files from mosaicatcher output in the input_user folder
+		* input_user/simpleCalls_llr4_poppriorsTRUE_haplotagsFALSE_gtcutoff0.05_regfactor6_filterTRUE.txt
+		* input_user/stran<br/><br/>
+3. **main outcomes**
+  * These cell types include: hematopoietic stem cells (HSCs), multipotent progenitors (MPPs), lymphoid-primed multipotent progenitors (LMPPs), common lymphoid progenitors (CLPs), plasmacytoid-dendritic cells (pDC), common myeloid progenitors (CMPs), granulocyte-macrophage progenitors (GMPs), and megakaryocyte–erythroid progenitors (MEPs) 

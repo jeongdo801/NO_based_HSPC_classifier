@@ -19,4 +19,4 @@ scNOVA: [[https://github.com/friendsofstrandseq/mosaicatcher-pipeline](https://g
 	* scripts/scNOVA_celltype_prediction_HSPC_BM_classifier.m
 	* scripts/scNOVA_celltype_prediction_HSPC_CB_classifier.m
 4. **main outcomes**
-  * These cell types include: hematopoietic stem cells (HSCs), multipotent progenitors (MPPs), lymphoid-primed multipotent progenitors (LMPPs), common lymphoid progenitors (CLPs), plasmacytoid-dendritic cells (pDC), common myeloid progenitors (CMPs), granulocyte-macrophage progenitors (GMPs), and megakaryocyte–erythroid progenitors (MEPs) 
+  * It classifies single-cells into one of eight HSPC cell-types based on NO at gene body. These cell types include: hematopoietic stem cells (HSCs), multipotent progenitors (MPPs), lymphoid-primed multipotent progenitors (LMPPs), common lymphoid progenitors (CLPs), plasmacytoid-dendritic cells (pDC), common myeloid progenitors (CMPs), granulocyte-macrophage progenitors (GMPs), and megakaryocyte–erythroid progenitors (MEPs) 

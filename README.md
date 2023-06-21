@@ -2,12 +2,13 @@
 This is the script developed for the provisional paper Grimes and Jeong et al. titled "Cell type-specific consequences of mosaic structural variants in hematopoietic stem and progenitor cells"
 
 
-## Overview of this workflow
-STEP1. Pre-requirement step - preparation of single-cell NO information using scNOVA analysis <br>
+
+## pre-requirement step
+1. preparation of single-cell NO information using scNOVA analysis <br>
 scNOVA: [https://github.com/friendsofstrandseq/mosaicatcher-pipeline](https://github.com/jeongdo801/scNOVA)
 
 <br/><br/>
-# Setup
+## Setup and run the script
 1. **input files**
 	* git lfs install
 	* git clone https://github.com/jeongdo801/scNOVA.git

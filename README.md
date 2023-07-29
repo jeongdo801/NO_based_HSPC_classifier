@@ -1,12 +1,10 @@
 # HSPC cell-type classifier using single-cell NO profiles
 This classifier has been developed for a study by Grimes and Jeong et al. (https://www.biorxiv.org/content/10.1101/2023.07.25.550502v1)
-
-
+<br/><br/>
 
 ## pre-requirement step
 1. preparation of single-cell NO information using scNOVA analysis <br>
 scNOVA: [[https://github.com/friendsofstrandseq/mosaicatcher-pipeline](https://github.com/jeongdo801/scNOVA)](https://github.com/jeongdo801/scNOVA)
-
 <br/><br/>
 ## Setup and run the script
 1. **input files**

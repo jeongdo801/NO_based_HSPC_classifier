@@ -1,5 +1,5 @@
 # HSPC cell-type classifier using single-cell NO profiles
-This classifier has been developed for a study by Grimes and Jeong et al. (manuscript in preparation).
+This classifier has been developed for a study by Grimes and Jeong et al. (https://www.biorxiv.org/content/10.1101/2023.07.25.550502v1)
 
 
 
@@ -20,3 +20,12 @@ scNOVA: [[https://github.com/friendsofstrandseq/mosaicatcher-pipeline](https://g
 	* scripts/scNOVA_celltype_prediction_HSPC_CB_classifier.m
 4. **main outcomes**
   * It classifies single-cells into one of eight HSPC cell-types based on NO at gene body. These cell types include: hematopoietic stem cells (HSCs), multipotent progenitors (MPPs), lymphoid-primed multipotent progenitors (LMPPs), common lymphoid progenitors (CLPs), plasmacytoid-dendritic cells (pDC), common myeloid progenitors (CMPs), granulocyte-macrophage progenitors (GMPs), and megakaryocyte–erythroid progenitors (MEPs) 
+
+
+
+## References
+For detailed information on HSPC cell-type classifier see
+> Grimes and Jeong *et al.*, 2023 (https://www.biorxiv.org/content/10.1101/2023.07.25.550502v1)
+
+For detailed information on scNOVA see
+> Jeong and Grimes *et al.*, 2022 (https://www.nature.com/articles/s41587-022-01551-4)

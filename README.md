@@ -10,8 +10,8 @@ scNOVA: [[https://github.com/friendsofstrandseq/mosaicatcher-pipeline](https://g
 1. **input files**
 	* Single-cell level NO table : `result/{SAMPLE}_sort_geneid.txt`
 2. **models**
-	* scripts/matlab_scMNase_final_model_BM_github.mat
-	* scripts/matlab_scMNase_final_model_CB_github.mat
+	* scripts/matlab_scMNase_final_model_BM_result.mat
+	* scripts/matlab_scMNase_final_model_CB_result.mat
 3. **scripts**
 	* scripts/scNOVA_celltype_prediction_HSPC_BM_classifier.m
 	* scripts/scNOVA_celltype_prediction_HSPC_CB_classifier.m

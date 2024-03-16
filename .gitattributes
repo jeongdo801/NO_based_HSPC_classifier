@@ -1,0 +1,2 @@
+scripts/matlab_scMNase_final_model_CB_result.mat filter=lfs diff=lfs merge=lfs -text
+scripts/matlab_scMNase_final_model_BM_result.mat filter=lfs diff=lfs merge=lfs -text

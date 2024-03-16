@@ -15,7 +15,7 @@
 Hit = (Hit5> 0 & RNA>0);
 
 
-data_GB_Strand = data_GB_Strand_CNnorm_sc_stringent_ploidyassignR;
+%data_GB_Strand : Strand-seq data matrix to predict cell-type
 [m,n] = size(data_GB_Strand);
 data_GB_Strand_RPM = zeros(m,n);
 
